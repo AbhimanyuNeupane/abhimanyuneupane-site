@@ -486,8 +486,6 @@ a.chip.active { color: var(--accent-ink); background: var(--accent); border-colo
 .login-card h1 { font-size: 26px; margin: 16px 0 6px; font-weight: 650; letter-spacing: -0.02em; }
 .login-card p { color: var(--muted); margin: 0 0 24px; font-size: 15px; }
 .login-card .btn { width: 100%; justify-content: center; }
-.divider { display: flex; align-items: center; gap: 12px; color: var(--faint); font-size: 13px; margin: 20px 0; }
-.divider::before, .divider::after { content: ""; flex: 1; height: 1px; background: var(--line); }
 
 /* "now" strip under About */
 .now { margin: 28px 0 0; display: grid; gap: 10px; }

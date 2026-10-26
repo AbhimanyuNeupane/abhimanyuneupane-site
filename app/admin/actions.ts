@@ -2,7 +2,6 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { headers } from "next/headers";
 import { createClient } from "@/lib/supabase/server";
 import { renderMarkdown, slugify } from "@/lib/format";
 import type { Certification, Featured } from "@/lib/types";
@@ -23,27 +22,7 @@ function refreshPublic() {
   revalidatePath("/", "layout");
 }
 
-async function origin() {
-  const h = await headers();
-  const host = h.get("x-forwarded-host") ?? h.get("host");
-  const proto = h.get("x-forwarded-proto") ?? "https";
-  return `${proto}://${host}`;
-}
-
 // ---------- auth ----------
-
-export async function sendMagicLink(_: ActionState, form: FormData): Promise<ActionState> {
-  const email = String(form.get("email") || "").trim().toLowerCase();
-  const generic = { ok: "If that address is the site admin, a sign-in link is on its way." };
-  if (!email || email !== (process.env.ADMIN_EMAIL || "").toLowerCase()) return generic;
-  const supabase = await createClient();
-  const { error } = await supabase.auth.signInWithOtp({
-    email,
-    options: { emailRedirectTo: `${await origin()}/auth/callback?next=/admin`, shouldCreateUser: true },
-  });
-  if (error) return { error: error.message };
-  return generic;
-}
 
 export async function signOut() {
   const supabase = await createClient();

@@ -17,7 +17,7 @@ export default async function LoginPage({ searchParams }: { searchParams: Promis
         <span className="accent"><KeyMark /></span>
         <h1>Admin sign in</h1>
         <p>Only the site owner&apos;s account can access the dashboard.</p>
-        {error && <div className="notice err">Sign-in failed or the link expired. Try again.</div>}
+        {error && <div className="notice err">Sign-in failed. Try again.</div>}
         <LoginForm />
       </div>
     </div>

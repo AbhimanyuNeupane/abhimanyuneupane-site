@@ -3,7 +3,7 @@
 Personal site for Abhimanyu Neupane. Next.js 15 on Vercel, Supabase for posts, settings, image storage and admin sign-in.
 
 - Public site: `/`, `/blog`, `/YYYY/MM/DD/slug` (same URLs as the old WordPress site), `/resume`, `/feed.xml`, `/sitemap.xml`
-- Admin: `/admin`, sign in with Google (or an emailed link). Only the email in the `public.admins` table can write; this is enforced by row-level security in the database, not just the UI.
+- Admin: `/admin`, sign in with Google. Only the email in the `public.admins` table can write; this is enforced by row-level security in the database, not just the UI.
 
 ## Deploy to Vercel
 
@@ -30,7 +30,7 @@ Personal site for Abhimanyu Neupane. Next.js 15 on Vercel, Supabase for posts, s
    - Site URL: `https://abhimanyuneupane.com`
    - Redirect URLs: add `https://abhimanyuneupane.com/**`, `https://*.vercel.app/**` and `http://localhost:3000/**`
 
-The "Email me a sign-in link" option on the login page works as soon as step 3 is done, even before Google is set up.
+Optional hardening: Supabase → Authentication → Sign In / Providers → **Email** → disable, so the only way to sign in is Google.
 
 ## Point the domain at Vercel
 
