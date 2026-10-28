@@ -169,7 +169,7 @@ export default async function Home() {
             {s.linkedin_url && (
               <a href={s.linkedin_url} className="btn primary" target="_blank" rel="noopener noreferrer">{Icon.linkedin} Message me on LinkedIn</a>
             )}
-            {s.email && <RevealEmail encoded={Buffer.from(s.email).toString("base64")} icon={Icon.mail} />}
+            {s.email && <RevealEmail encoded={s.email} icon={Icon.mail} />}
           </div>
         </div>
       </section>

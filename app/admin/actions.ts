@@ -116,6 +116,8 @@ export async function saveSettings(_: ActionState, form: FormData): Promise<Acti
     const accent = String(form.get("accent") || "#e0b25a");
     const email = String(form.get("email") || "").trim() || null;
     if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return { error: "Public email doesn't look valid." };
+    // Stored base64-encoded: the settings row is publicly readable through the API, so the plain address never sits there.
+    const encodedEmail = email ? Buffer.from(email).toString("base64") : null;
 
     const row = {
       site_title: String(form.get("site_title") || "").trim() || "Abhimanyu Neupane",
@@ -123,7 +125,7 @@ export async function saveSettings(_: ActionState, form: FormData): Promise<Acti
       tagline: String(form.get("tagline") || "").trim(),
       about: String(form.get("about") || "").trim(),
       avatar_url: urlOrNull(form.get("avatar_url")),
-      email,
+      email: encodedEmail,
       linkedin_url: urlOrNull(form.get("linkedin_url")),
       github_url: urlOrNull(form.get("github_url")),
       medium_url: urlOrNull(form.get("medium_url")),

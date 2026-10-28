@@ -26,6 +26,7 @@ export type Settings = {
   about: string;
   avatar_url: string | null;
   resume_url: string | null;
+  /** Base64-encoded public address; decoded only in the browser when the visitor clicks "Reveal my email". */
   email: string | null;
   linkedin_url: string | null;
   github_url: string | null;

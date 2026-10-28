@@ -217,8 +217,8 @@ export default function SettingsForm({ s }: { s: Settings }) {
             <div className="field"><label htmlFor="medium_url">Medium</label><input id="medium_url" name="medium_url" className="input" defaultValue={s.medium_url ?? ""} /></div>
             <div className="field">
               <label htmlFor="email">Public email</label>
-              <input id="email" name="email" type="email" className="input" defaultValue={s.email ?? ""} placeholder="Leave empty to hide" />
-              <span className="hint">Shown on the site. Leave empty to use LinkedIn only.</span>
+              <input id="email" name="email" type="email" className="input" defaultValue={s.email ? atob(s.email) : ""} placeholder="Leave empty to hide" />
+              <span className="hint">Saved base64-encoded and shown behind a &quot;Reveal my email&quot; button. Leave empty to use LinkedIn only.</span>
             </div>
           </div>
 
