@@ -408,6 +408,14 @@ a.chip.active { color: var(--accent-ink); background: var(--accent); border-colo
 .contact .actions { display: flex; gap: 10px; flex-wrap: wrap; }
 @media (max-width: 760px) { .contact .wrap { grid-template-columns: 1fr; } }
 
+/* "Reveal my email" result: the base64 string, selectable as one piece */
+.email-code {
+  display: inline-flex; align-items: center; max-width: 100%; overflow-wrap: anywhere;
+  font: 14.5px/1.4 var(--font-mono); color: var(--accent);
+  background: var(--card); border: 1px dashed var(--line-2); border-radius: 9px; padding: 12px 14px;
+  user-select: all;
+}
+
 /* ============================================================
    Article
    ============================================================ */
