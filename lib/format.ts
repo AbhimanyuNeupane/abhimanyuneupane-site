@@ -72,6 +72,11 @@ export function renderMarkdown(md: string) {
   });
 }
 
+/** JSON for an inline <script type="application/ld+json">; escaping "<" stops a stray "</script>" from closing the tag. */
+export function jsonLdString(data: unknown) {
+  return JSON.stringify(data).replace(/</g, "\\u003c");
+}
+
 export function toc(md: string) {
   return [...(md || "").replace(/```[\s\S]*?```/g, "").matchAll(/^(##)\s+(.+)$/gm)].map((m) => {
     const text = m[2].replace(/[*_`]/g, "").trim();

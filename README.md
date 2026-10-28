@@ -16,7 +16,6 @@ Personal site for Abhimanyu Neupane. Next.js 15 on Vercel, Supabase for posts, s
 | `NEXT_PUBLIC_SUPABASE_URL` | `https://nztobuxccpkfigmxqqmb.supabase.co` |
 | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | the publishable key from Supabase → Project Settings → API Keys |
 | `NEXT_PUBLIC_SITE_URL` | `https://abhimanyuneupane.com` |
-| `ADMIN_EMAIL` | `abhimanyuneupane1@gmail.com` |
 
 4. Deploy.
 

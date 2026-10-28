@@ -4,7 +4,7 @@ import { CertList, EducationList, Timeline, Toolkit } from "@/components/Resume"
 import { Icon } from "@/components/SiteChrome";
 import VaultCard from "@/components/VaultCard";
 import { getPublishedPosts, getSettings } from "@/lib/data";
-import { SITE_URL } from "@/lib/format";
+import { jsonLdString, SITE_URL } from "@/lib/format";
 
 export const revalidate = 300;
 
@@ -34,7 +34,7 @@ export default async function Home() {
 
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdString(jsonLd) }} />
 
       <section className="hero">
         <div className="wrap">

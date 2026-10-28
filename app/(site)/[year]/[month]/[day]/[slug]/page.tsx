@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound, permanentRedirect } from "next/navigation";
 import { getPostBySlug, getPublishedPosts, getSettings } from "@/lib/data";
-import { formatDate, postPath, readingTime, renderMarkdown, SITE_URL, slugify, toc } from "@/lib/format";
+import { formatDate, jsonLdString, postPath, readingTime, renderMarkdown, SITE_URL, slugify, toc } from "@/lib/format";
 
 export const revalidate = 300;
 
@@ -65,7 +65,7 @@ export default async function PostPage({ params }: { params: Promise<Params> }) 
 
   return (
     <article>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdString(jsonLd) }} />
       <div className="wrap">
         <header className="article-head">
           <nav className="crumbs" aria-label="Breadcrumb">
