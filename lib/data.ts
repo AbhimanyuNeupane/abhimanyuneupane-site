@@ -16,7 +16,10 @@ const FALLBACK: Settings = {
   certifications: [],
   skills: [],
   featured: [],
-  accent: "#e0b25a",
+  experience: [],
+  education: [],
+  toolkit: [],
+  accent: "#c2410c",
   now_text: "",
   location: "",
 };

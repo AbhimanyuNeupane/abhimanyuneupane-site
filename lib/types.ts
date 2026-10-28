@@ -15,6 +15,9 @@ export type Post = {
 
 export type Certification = { name: string; code?: string; issuer?: string; url?: string };
 export type Featured = { title: string; body: string };
+export type Job = { role: string; org: string; place?: string; start: string; end: string; points: string[] };
+export type Schooling = { title: string; school: string; dates?: string; note?: string };
+export type ToolGroup = { group: string; items: string };
 
 export type Settings = {
   site_title: string;
@@ -30,6 +33,9 @@ export type Settings = {
   certifications: Certification[];
   skills: string[];
   featured: Featured[];
+  experience: Job[];
+  education: Schooling[];
+  toolkit: ToolGroup[];
   accent: string;
   now_text: string;
   location: string;

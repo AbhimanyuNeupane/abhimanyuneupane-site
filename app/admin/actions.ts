@@ -4,7 +4,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { renderMarkdown, slugify } from "@/lib/format";
-import type { Certification, Featured } from "@/lib/types";
+import type { Certification, Job, Schooling, ToolGroup } from "@/lib/types";
 
 export type ActionState = { ok?: string; error?: string } | null;
 
@@ -109,8 +109,10 @@ export async function saveSettings(_: ActionState, form: FormData): Promise<Acti
   const supabase = await requireAdmin();
   try {
     const certifications = JSON.parse(String(form.get("certifications") || "[]")) as Certification[];
-    const featured = JSON.parse(String(form.get("featured") || "[]")) as Featured[];
-    const accent = String(form.get("accent") || "#e0b25a");
+    const experience = JSON.parse(String(form.get("experience") || "[]")) as Job[];
+    const education = JSON.parse(String(form.get("education") || "[]")) as Schooling[];
+    const toolkit = JSON.parse(String(form.get("toolkit") || "[]")) as ToolGroup[];
+    const accent = String(form.get("accent") || "#c2410c");
     const email = String(form.get("email") || "").trim() || null;
     if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return { error: "Public email doesn't look valid." };
 
@@ -125,10 +127,13 @@ export async function saveSettings(_: ActionState, form: FormData): Promise<Acti
       linkedin_url: urlOrNull(form.get("linkedin_url")),
       github_url: urlOrNull(form.get("github_url")),
       medium_url: urlOrNull(form.get("medium_url")),
-      skills: String(form.get("skills") || "").split(",").map((s) => s.trim()).filter(Boolean),
       certifications: certifications.filter((c) => c.name?.trim()).map((c) => ({ ...c, url: c.url?.trim() || undefined })),
-      featured: featured.filter((f) => f.title?.trim()),
-      accent: /^#[0-9a-f]{6}$/i.test(accent) ? accent : "#e0b25a",
+      experience: experience
+        .filter((j) => j.role?.trim() && j.org?.trim())
+        .map((j) => ({ ...j, points: j.points.map((pt) => pt.trim()).filter(Boolean) })),
+      education: education.filter((e) => e.title?.trim()),
+      toolkit: toolkit.filter((t) => t.group?.trim() && t.items?.trim()),
+      accent: /^#[0-9a-f]{6}$/i.test(accent) ? accent : "#c2410c",
       now_text: String(form.get("now_text") || "").trim(),
       location: String(form.get("location") || "").trim(),
     };
