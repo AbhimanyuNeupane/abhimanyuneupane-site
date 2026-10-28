@@ -1,5 +1,6 @@
 import Link from "next/link";
 import PostRow, { FeaturedPost } from "@/components/PostRow";
+import RevealEmail from "@/components/RevealEmail";
 import { CertList, EducationList, Timeline, Toolkit } from "@/components/Resume";
 import { Icon } from "@/components/SiteChrome";
 import VaultCard from "@/components/VaultCard";
@@ -168,7 +169,7 @@ export default async function Home() {
             {s.linkedin_url && (
               <a href={s.linkedin_url} className="btn primary" target="_blank" rel="noopener noreferrer">{Icon.linkedin} Message me on LinkedIn</a>
             )}
-            {s.email && <a href={`mailto:${s.email}`} className="btn">{Icon.mail} {s.email}</a>}
+            {s.email && <RevealEmail encoded={Buffer.from(s.email).toString("base64")} icon={Icon.mail} />}
           </div>
         </div>
       </section>
