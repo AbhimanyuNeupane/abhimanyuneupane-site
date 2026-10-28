@@ -19,7 +19,7 @@ const FALLBACK: Settings = {
   experience: [],
   education: [],
   toolkit: [],
-  accent: "#c2410c",
+  accent: "#e0b25a",
   now_text: "",
   location: "",
 };

@@ -4,7 +4,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { renderMarkdown, slugify } from "@/lib/format";
-import type { Certification, Job, Schooling, ToolGroup } from "@/lib/types";
+import type { Certification, Featured, Job, Schooling, ToolGroup } from "@/lib/types";
 
 export type ActionState = { ok?: string; error?: string } | null;
 
@@ -109,10 +109,11 @@ export async function saveSettings(_: ActionState, form: FormData): Promise<Acti
   const supabase = await requireAdmin();
   try {
     const certifications = JSON.parse(String(form.get("certifications") || "[]")) as Certification[];
+    const featured = JSON.parse(String(form.get("featured") || "[]")) as Featured[];
     const experience = JSON.parse(String(form.get("experience") || "[]")) as Job[];
     const education = JSON.parse(String(form.get("education") || "[]")) as Schooling[];
     const toolkit = JSON.parse(String(form.get("toolkit") || "[]")) as ToolGroup[];
-    const accent = String(form.get("accent") || "#c2410c");
+    const accent = String(form.get("accent") || "#e0b25a");
     const email = String(form.get("email") || "").trim() || null;
     if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return { error: "Public email doesn't look valid." };
 
@@ -128,12 +129,11 @@ export async function saveSettings(_: ActionState, form: FormData): Promise<Acti
       github_url: urlOrNull(form.get("github_url")),
       medium_url: urlOrNull(form.get("medium_url")),
       certifications: certifications.filter((c) => c.name?.trim()).map((c) => ({ ...c, url: c.url?.trim() || undefined })),
-      experience: experience
-        .filter((j) => j.role?.trim() && j.org?.trim())
-        .map((j) => ({ ...j, points: j.points.map((pt) => pt.trim()).filter(Boolean) })),
+      featured: featured.filter((f) => f.title?.trim()),
+      experience: experience.filter((j) => j.role?.trim() && j.org?.trim()),
       education: education.filter((e) => e.title?.trim()),
       toolkit: toolkit.filter((t) => t.group?.trim() && t.items?.trim()),
-      accent: /^#[0-9a-f]{6}$/i.test(accent) ? accent : "#c2410c",
+      accent: /^#[0-9a-f]{6}$/i.test(accent) ? accent : "#e0b25a",
       now_text: String(form.get("now_text") || "").trim(),
       location: String(form.get("location") || "").trim(),
     };

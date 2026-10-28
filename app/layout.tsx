@@ -1,11 +1,6 @@
 import type { Metadata, Viewport } from "next";
-import "@fontsource-variable/source-serif-4/opsz.css";
-import "@fontsource-variable/source-serif-4/opsz-italic.css";
-import "@fontsource/ibm-plex-sans/400.css";
-import "@fontsource/ibm-plex-sans/500.css";
-import "@fontsource/ibm-plex-sans/600.css";
-import "@fontsource/ibm-plex-mono/400.css";
-import "@fontsource/ibm-plex-mono/500.css";
+import "@fontsource-variable/bricolage-grotesque/standard.css";
+import "@fontsource-variable/jetbrains-mono/index.css";
 import { getSettings } from "@/lib/data";
 import { SITE_URL } from "@/lib/format";
 import "./globals.css";
@@ -27,8 +22,8 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export const viewport: Viewport = {
   themeColor: [
-    { media: "(prefers-color-scheme: dark)", color: "#171614" },
-    { media: "(prefers-color-scheme: light)", color: "#f3efe6" },
+    { media: "(prefers-color-scheme: dark)", color: "#10161d" },
+    { media: "(prefers-color-scheme: light)", color: "#f3f5f7" },
   ],
 };
 
@@ -37,14 +32,12 @@ const themeScript = `try{var t=localStorage.getItem('theme');if(t==='light'||t==
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const s = await getSettings();
-  const accent = /^#[0-9a-f]{6}$/i.test(s.accent) ? s.accent : "#c2410c";
-  // The stored accent is tuned for paper; on the dark theme it is lifted so it keeps its contrast.
-  const lifted = `color-mix(in srgb, ${accent} 70%, #fff)`;
+  const accent = /^#[0-9a-f]{6}$/i.test(s.accent) ? s.accent : "#e0b25a";
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
-        <style>{`:root{--accent:${accent}}@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--accent:${lifted}}}:root[data-theme="dark"]{--accent:${lifted}}`}</style>
+        <style>{`:root:not([data-theme="light"]){--accent:${accent}}@media (prefers-color-scheme: light){:root:not([data-theme="dark"]){--accent:color-mix(in srgb, ${accent} 62%, #000)}}:root[data-theme="light"]{--accent:color-mix(in srgb, ${accent} 62%, #000)}`}</style>
       </head>
       <body>{children}</body>
     </html>

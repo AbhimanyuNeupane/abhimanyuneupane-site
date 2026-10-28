@@ -2,12 +2,13 @@
 
 import { useActionState, useState } from "react";
 import { saveSettings, type ActionState } from "@/app/admin/actions";
-import type { Certification, Job, Schooling, Settings, ToolGroup } from "@/lib/types";
+import type { Certification, Featured, Job, Schooling, Settings, ToolGroup } from "@/lib/types";
 import { uploadMedia } from "./upload";
 
 export default function SettingsForm({ s }: { s: Settings }) {
   const [state, action, pending] = useActionState<ActionState, FormData>(saveSettings, null);
   const [certs, setCerts] = useState<Certification[]>(s.certifications ?? []);
+  const [featured, setFeatured] = useState<Featured[]>(s.featured ?? []);
   const [jobs, setJobs] = useState<Job[]>(s.experience ?? []);
   const [schools, setSchools] = useState<Schooling[]>(s.education ?? []);
   const [tools, setTools] = useState<ToolGroup[]>(s.toolkit ?? []);
@@ -33,7 +34,9 @@ export default function SettingsForm({ s }: { s: Settings }) {
 
   const setCert = (i: number, k: keyof Certification, v: string) =>
     setCerts((c) => c.map((x, j) => (j === i ? { ...x, [k]: v } : x)));
-  const setJob = (i: number, patch: Partial<Job>) => setJobs((c) => c.map((x, j) => (j === i ? { ...x, ...patch } : x)));
+  const setFeat = (i: number, k: keyof Featured, v: string) =>
+    setFeatured((c) => c.map((x, j) => (j === i ? { ...x, [k]: v } : x)));
+  const setJob =(i: number, patch: Partial<Job>) => setJobs((c) => c.map((x, j) => (j === i ? { ...x, ...patch } : x)));
   const setSchool = (i: number, patch: Partial<Schooling>) => setSchools((c) => c.map((x, j) => (j === i ? { ...x, ...patch } : x)));
   const setTool = (i: number, patch: Partial<ToolGroup>) => setTools((c) => c.map((x, j) => (j === i ? { ...x, ...patch } : x)));
   const move = <T,>(list: T[], i: number, d: -1 | 1) => {
@@ -47,6 +50,7 @@ export default function SettingsForm({ s }: { s: Settings }) {
   return (
     <form action={action}>
       <input type="hidden" name="certifications" value={JSON.stringify(certs)} />
+      <input type="hidden" name="featured" value={JSON.stringify(featured)} />
       <input type="hidden" name="experience" value={JSON.stringify(jobs)} />
       <input type="hidden" name="education" value={JSON.stringify(schools)} />
       <input type="hidden" name="toolkit" value={JSON.stringify(tools)} />
@@ -87,8 +91,26 @@ export default function SettingsForm({ s }: { s: Settings }) {
 
           <div className="panel">
             <div className="row between" style={{ marginBottom: 12 }}>
+              <h2 style={{ margin: 0 }}>What I work on</h2>
+              <button type="button" className="btn sm" onClick={() => setFeatured([...featured, { title: "", body: "" }])}>Add area</button>
+            </div>
+            <div className="list-editor">
+              {featured.map((f, i) => (
+                <div className="item" key={i}>
+                  <div className="row">
+                    <input className="input" placeholder="Title" value={f.title} onChange={(e) => setFeat(i, "title", e.target.value)} aria-label="Area title" />
+                    <button type="button" className="btn sm ghost" onClick={() => setFeatured(featured.filter((_, j) => j !== i))}>Remove</button>
+                  </div>
+                  <textarea className="textarea" style={{ minHeight: 70 }} placeholder="One or two sentences" value={f.body} onChange={(e) => setFeat(i, "body", e.target.value)} aria-label="Area description" />
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="panel">
+            <div className="row between" style={{ marginBottom: 12 }}>
               <h2 style={{ margin: 0 }}>Experience</h2>
-              <button type="button" className="btn sm" onClick={() => setJobs([{ role: "", org: "", place: "", start: "", end: "Present", points: [] }, ...jobs])}>Add role</button>
+              <button type="button" className="btn sm" onClick={() => setJobs([{ role: "", org: "", place: "", start: "", end: "Present" }, ...jobs])}>Add role</button>
             </div>
             <p className="hint" style={{ margin: "0 0 12px" }}>Newest first. Use &quot;Present&quot; as the end date for your current role.</p>
             <div className="list-editor">
@@ -103,7 +125,6 @@ export default function SettingsForm({ s }: { s: Settings }) {
                     <input className="input" style={{ maxWidth: 120 }} placeholder="May 2025" value={job.start} onChange={(e) => setJob(i, { start: e.target.value })} aria-label="Start" />
                     <input className="input" style={{ maxWidth: 120 }} placeholder="Present" value={job.end} onChange={(e) => setJob(i, { end: e.target.value })} aria-label="End" />
                   </div>
-                  <textarea className="textarea" style={{ minHeight: 90 }} placeholder="One highlight per line" value={job.points.join("\n")} onChange={(e) => setJob(i, { points: e.target.value.split("\n") })} aria-label="Highlights" />
                   <div className="row">
                     <button type="button" className="btn sm ghost" onClick={() => setJobs(move(jobs, i, -1))} disabled={i === 0}>Move up</button>
                     <button type="button" className="btn sm ghost" onClick={() => setJobs(move(jobs, i, 1))} disabled={i === jobs.length - 1}>Move down</button>
@@ -218,7 +239,7 @@ export default function SettingsForm({ s }: { s: Settings }) {
             <h2>Accent colour</h2>
             <div className="row">
               <input type="color" name="accent" defaultValue={s.accent} aria-label="Accent colour" style={{ width: 48, height: 36, border: 0, background: "none" }} />
-              <span className="hint">Used sparingly for links and the current-role marker.</span>
+              <span className="hint">Used for buttons and links.</span>
             </div>
           </div>
         </aside>

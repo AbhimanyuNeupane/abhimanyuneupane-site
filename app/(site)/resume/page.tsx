@@ -1,48 +1,51 @@
 import type { Metadata } from "next";
-import { Credentials, Timeline, Toolkit } from "@/components/Resume";
+import { CertList, EducationList, Timeline, Toolkit } from "@/components/Resume";
+import { Icon } from "@/components/SiteChrome";
 import { getSettings } from "@/lib/data";
 
 export const revalidate = 300;
-export const metadata: Metadata = { title: "Résumé", alternates: { canonical: "/resume" } };
+export const metadata: Metadata = { title: "Resume", alternates: { canonical: "/resume" } };
 
 export default async function Resume() {
   const s = await getSettings();
   return (
-    <div className="wrap" style={{ paddingBottom: 72 }}>
+    <div className="wrap" style={{ paddingBottom: 80 }}>
       <div className="page-head">
-        <h1>Résumé</h1>
-        <p>{s.headline}{s.location ? `, ${s.location}` : ""}.</p>
+        <h1>Resume</h1>
+        <p>{s.headline}{s.location ? ` · ${s.location}` : ""}</p>
         {s.resume_url && (
-          <p className="intro-links" style={{ marginTop: 18 }}>
-            <a href={s.resume_url} target="_blank" rel="noopener noreferrer">Download the PDF</a>
-          </p>
+          <a href={s.resume_url} className="btn primary" target="_blank" rel="noopener noreferrer" style={{ marginTop: 20 }}>{Icon.download} Download PDF</a>
         )}
       </div>
 
       {s.experience.length > 0 && (
-        <section className="sec sec-first">
-          <div className="sec-grid">
-            <h2>Experience</h2>
-            <Timeline jobs={s.experience} />
-          </div>
+        <section className="resume-block">
+          <h2 className="aside-title">Experience</h2>
+          <Timeline jobs={s.experience} />
         </section>
       )}
+
       {s.toolkit.length > 0 && (
-        <section className="sec">
-          <div className="sec-grid">
-            <h2>Toolkit</h2>
-            <Toolkit groups={s.toolkit} />
-          </div>
+        <section className="resume-block">
+          <h2 className="aside-title">Tools</h2>
+          <Toolkit groups={s.toolkit} />
         </section>
       )}
-      {(s.certifications.length > 0 || s.education.length > 0) && (
-        <section className="sec">
-          <div className="sec-grid">
-            <h2>Credentials</h2>
-            <Credentials s={s} />
-          </div>
-        </section>
-      )}
+
+      <div className="resume-cols">
+        {s.certifications.length > 0 && (
+          <section className="resume-block">
+            <h2 className="aside-title">Certifications</h2>
+            <CertList certs={s.certifications} />
+          </section>
+        )}
+        {s.education.length > 0 && (
+          <section className="resume-block">
+            <h2 className="aside-title">Education</h2>
+            <EducationList items={s.education} />
+          </section>
+        )}
+      </div>
     </div>
   );
 }
