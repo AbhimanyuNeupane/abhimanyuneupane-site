@@ -14,12 +14,6 @@ export default async function Home() {
   const more = rest.slice(0, 4);
   const [first, ...last] = s.site_title.split(" ");
   const avatar = s.avatar_url || "/avatar.jpg";
-  // Running character index so the name animates in one continuous sweep across both lines.
-  let ci = 0;
-  const letters = (word: string) =>
-    [...word].map((ch) => (
-      <span key={ci} className="char" style={{ ["--c" as string]: ci++ }}>{ch}</span>
-    ));
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -38,35 +32,23 @@ export default async function Home() {
 
       <section className="hero">
         <div className="wrap">
-          <div>
-            <div className="hero-photo">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={avatar} alt={s.site_title} width={132} height={132} />
-            </div>
-            <p className="hero-prompt rise" aria-hidden="true" style={{ ["--d" as string]: ".15s" }}>
-              <span className="accent">$</span> whoami
-            </p>
-            <h1 className="hero-name" aria-label={s.site_title}>
-              <span aria-hidden="true">{letters(first)}</span>
-              {last.length > 0 && <span aria-hidden="true">{letters(last.join(" "))}</span>}
+          <div className="hero-intro">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img className="hero-photo" src={avatar} alt={s.site_title} width={112} height={112} />
+            <h1 className="hero-name">
+              <span>{first}</span>
+              {last.length > 0 && <span>{last.join(" ")}</span>}
             </h1>
-            <p className="hero-role" aria-label={s.headline}>
-              <span aria-hidden="true">
-                {[...s.headline].map((ch, i) => (
-                  <span key={i} className="type" style={{ ["--t" as string]: i }}>{ch}</span>
-                ))}
-              </span>
-              <span className="caret" aria-hidden="true" style={{ ["--n" as string]: s.headline.length }} />
-            </p>
-            {s.tagline && <p className="hero-tagline rise" style={{ ["--d" as string]: "1.5s" }}>{s.tagline}</p>}
-            <div className="hero-actions rise" style={{ ["--d" as string]: "1.7s" }}>
+            <p className="hero-role">{s.headline}</p>
+            {s.tagline && <p className="hero-tagline">{s.tagline}</p>}
+            <div className="hero-actions">
               {s.linkedin_url && (
                 <a href={s.linkedin_url} className="btn primary" target="_blank" rel="noopener noreferrer">{Icon.linkedin} LinkedIn</a>
               )}
               <Link href="/resume" className="btn">{Icon.file} Resume</Link>
             </div>
           </div>
-          <VaultCard s={s} lastPost={featured?.published_at ?? null} />
+          <VaultCard s={s} latest={featured ?? null} />
         </div>
       </section>
 
@@ -88,7 +70,7 @@ export default async function Home() {
             <div className="section-head">
               <div>
                 <h2>Writing</h2>
-                <p>Step-by-step notes from real security work: privileged access, firewalls and VPNs, Active Directory and PKI.</p>
+                <p>How-tos from things I&apos;ve set up and fixed, mostly firewalls, VPNs, Active Directory and CyberArk.</p>
               </div>
               <Link href="/blog" className="text-link">All {posts.length} posts</Link>
             </div>
@@ -164,8 +146,8 @@ export default async function Home() {
       <section className="contact" id="contact">
         <div className="wrap">
           <div>
-            <h2>Request access.</h2>
-            <p>Questions about a write-up, a security project or an opportunity? I read every message.</p>
+            <h2>Get in touch</h2>
+            <p>If you have a question about one of the posts, or want to talk about a role, LinkedIn is the best place to reach me.</p>
           </div>
           <div className="actions">
             {s.linkedin_url && (

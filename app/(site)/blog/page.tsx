@@ -21,7 +21,7 @@ export default async function Blog({ searchParams }: { searchParams: Promise<{ c
     <div className="wrap" style={{ paddingBottom: 80 }}>
       <div className="page-head">
         <h1>Writing</h1>
-        <p>Configurations I&apos;ve built, broken and fixed, written up so the next person doesn&apos;t have to.</p>
+        <p>Notes on things I&apos;ve set up at work, written down so I don&apos;t have to figure them out twice.</p>
       </div>
       {cats.length > 1 && (
         <nav className="filters" aria-label="Categories">

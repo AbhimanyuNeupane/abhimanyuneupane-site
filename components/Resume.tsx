@@ -12,10 +12,7 @@ export function Timeline({ jobs }: { jobs: Settings["experience"] }) {
               <h3>{j.role}</h3>
               <p>{j.org}{j.place ? <span className="tl-place"> · {j.place}</span> : null}</p>
             </div>
-            <p className="tl-when">
-              {current && <span className="tl-now">Current</span>}
-              {j.start} – {j.end}
-            </p>
+            <p className="tl-when">{j.start} – {j.end}</p>
           </li>
         );
       })}
@@ -23,16 +20,13 @@ export function Timeline({ jobs }: { jobs: Settings["experience"] }) {
   );
 }
 
-/** Tool groups, each with its tools as chips. */
 export function Toolkit({ groups }: { groups: Settings["toolkit"] }) {
   return (
     <dl className="toolkit">
       {groups.map((g) => (
         <div key={g.group}>
           <dt>{g.group}</dt>
-          <dd className="chips">
-            {g.items.split(",").map((t) => t.trim()).filter(Boolean).map((t) => <span key={t} className="chip">{t}</span>)}
-          </dd>
+          <dd>{g.items.split(",").map((t) => t.trim()).filter(Boolean).join(", ")}</dd>
         </div>
       ))}
     </dl>
