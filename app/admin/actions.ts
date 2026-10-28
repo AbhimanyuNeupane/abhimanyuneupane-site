@@ -123,7 +123,6 @@ export async function saveSettings(_: ActionState, form: FormData): Promise<Acti
       tagline: String(form.get("tagline") || "").trim(),
       about: String(form.get("about") || "").trim(),
       avatar_url: urlOrNull(form.get("avatar_url")),
-      resume_url: urlOrNull(form.get("resume_url")),
       email,
       linkedin_url: urlOrNull(form.get("linkedin_url")),
       github_url: urlOrNull(form.get("github_url")),

@@ -10,7 +10,7 @@ export default async function SettingsPage() {
       <div className="admin-title">
         <div>
           <h1>Site settings</h1>
-          <p className="muted" style={{ margin: "4px 0 0", fontSize: 14 }}>Everything on the homepage and resume page comes from here.</p>
+          <p className="muted" style={{ margin: "4px 0 0", fontSize: 14 }}>Everything on the homepage comes from here.</p>
         </div>
       </div>
       <SettingsForm s={data as Settings} />

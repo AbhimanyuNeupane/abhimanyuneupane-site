@@ -23,6 +23,7 @@ const nextConfig: NextConfig = {
       { source: "/author/:name", destination: "/#about", permanent: true },
       { source: "/feed", destination: "/feed.xml", permanent: true },
       { source: "/about", destination: "/#about", permanent: false },
+      { source: "/resume", destination: "/#experience", permanent: true },
       { source: "/wp-admin", destination: "/admin", permanent: false },
       { source: "/wp-login.php", destination: "/admin", permanent: false },
     ];

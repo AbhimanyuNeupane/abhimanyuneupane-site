@@ -13,18 +13,15 @@ export default function SettingsForm({ s }: { s: Settings }) {
   const [schools, setSchools] = useState<Schooling[]>(s.education ?? []);
   const [tools, setTools] = useState<ToolGroup[]>(s.toolkit ?? []);
   const [avatar, setAvatar] = useState(s.avatar_url ?? "");
-  const [resume, setResume] = useState(s.resume_url ?? "");
   const [busy, setBusy] = useState<string | null>(null);
   const [uploadErr, setUploadErr] = useState<string | null>(null);
 
-  async function upload(file: File | undefined, kind: "avatar" | "resume") {
+  async function upload(file: File | undefined, kind: "avatar") {
     if (!file) return;
     setBusy(kind);
     setUploadErr(null);
     try {
-      const url = await uploadMedia(file, kind);
-      if (kind === "avatar") setAvatar(url);
-      else setResume(url);
+      setAvatar(await uploadMedia(file, kind));
     } catch (e) {
       setUploadErr(e instanceof Error ? e.message : "Upload failed.");
     } finally {
@@ -55,7 +52,6 @@ export default function SettingsForm({ s }: { s: Settings }) {
       <input type="hidden" name="education" value={JSON.stringify(schools)} />
       <input type="hidden" name="toolkit" value={JSON.stringify(tools)} />
       <input type="hidden" name="avatar_url" value={avatar} />
-      <input type="hidden" name="resume_url" value={resume} />
 
       {state?.ok && <div className="notice ok">{state.ok}</div>}
       {state?.error && <div className="notice err">{state.error}</div>}
@@ -212,15 +208,6 @@ export default function SettingsForm({ s }: { s: Settings }) {
               </label>
               {avatar && <button type="button" className="btn sm ghost" onClick={() => setAvatar("")}>Remove</button>}
             </div>
-          </div>
-
-          <div className="panel">
-            <h2>Resume</h2>
-            {resume && <p style={{ margin: "0 0 10px", fontSize: 13.5 }}><a className="accent" href={resume} target="_blank" rel="noopener">Current PDF</a></p>}
-            <label className="btn sm" style={{ cursor: "pointer" }}>
-              {busy === "resume" ? "Uploading…" : "Upload new PDF"}
-              <input type="file" accept="application/pdf" hidden onChange={(e) => upload(e.target.files?.[0], "resume")} />
-            </label>
           </div>
 
           <div className="panel">

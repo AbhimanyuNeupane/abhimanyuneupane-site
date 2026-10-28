@@ -63,7 +63,7 @@ export default async function Home() {
               {s.linkedin_url && (
                 <a href={s.linkedin_url} className="btn primary" target="_blank" rel="noopener noreferrer">{Icon.linkedin} LinkedIn</a>
               )}
-              <Link href="/resume" className="btn">{Icon.file} Resume</Link>
+              <a href="#contact" className="btn">{Icon.mail} Contact</a>
             </div>
           </div>
           <VaultCard s={s} lastPost={featured?.published_at ?? null} />
@@ -73,10 +73,7 @@ export default async function Home() {
       {s.experience.length > 0 && (
         <section className="section" id="experience">
           <div className="wrap">
-            <div className="section-head">
-              <h2>Experience</h2>
-              <Link href="/resume" className="text-link">Full resume</Link>
-            </div>
+            <div className="section-head"><h2>Experience</h2></div>
             <Timeline jobs={s.experience} />
           </div>
         </section>
@@ -171,7 +168,7 @@ export default async function Home() {
             {s.linkedin_url && (
               <a href={s.linkedin_url} className="btn primary" target="_blank" rel="noopener noreferrer">{Icon.linkedin} Message me on LinkedIn</a>
             )}
-            {s.email && <a href={`mailto:${s.email}`} className="btn">{Icon.mail} Email</a>}
+            {s.email && <a href={`mailto:${s.email}`} className="btn">{Icon.mail} {s.email}</a>}
           </div>
         </div>
       </section>

@@ -26,7 +26,6 @@ export function Header({ s }: { s: Settings }) {
           <Link href="/#experience" className="hide-sm">Experience</Link>
           <Link href="/blog">Writing</Link>
           <Link href="/#about" className="hide-sm">About</Link>
-          <Link href="/resume">Resume</Link>
           <ThemeToggle />
         </nav>
       </div>
